@@ -22,19 +22,19 @@ function getCellCoord(strCellId) {
 }
 
 
-function renderBoard() {
-    var strHTML = '';
-    for (var i = 0; i < gBoardSize; i++) {
-        strHTML += '<tr>'
-        for (var j = 0; j < gBoardSize; j++) {
-            var cellNum = drawNum(gNums);
-            strHTML += `<td class="cell" data-cellnum=${cellNum} onclick="cellClicked(this)">${cellNum}</td>`
-        }
-        strHTML += '</tr>'
-    }
-    var elBoard = document.querySelector('.board');
-    elBoard.innerHTML = strHTML;
-}
+// function renderBoard() {
+//     var strHTML = '';
+//     for (var i = 0; i < gBoardSize; i++) {
+//         strHTML += '<tr>'
+//         for (var j = 0; j < gBoardSize; j++) {
+//             var cellNum = drawNum(gNums);
+//             strHTML += `<td class="cell" data-cellnum=${cellNum} onclick="cellClicked(this)">${cellNum}</td>`
+//         }
+//         strHTML += '</tr>'
+//     }
+//     var elBoard = document.querySelector('.board');
+//     elBoard.innerHTML = strHTML;
+// }
 
 // function cellClicked(elCell) {
 //     var cellNum = +elCell.dataset.cellnum;
@@ -45,27 +45,7 @@ function renderBoard() {
 //     }
 // }
 
-function putBombsInBoard(gBoard) {
-   
-    var gameArray = createArray(14, 2)
-    console.log(gameArray)
-    for (var i = 0; i < gBoard.length; i++) {
-        for (var j = 0; j < gBoard[0].length; j++) {
-            var currCell = gBoard[i][j]
-            var cellType = currCell.type += gameArray[0];
-            console.log(currCell)
-            gameArray.shift()
-        }
-    }
-}
 
-function createArray(empty, bomb) {
-    var bombArray = Array(bomb).fill('bomb')
-    var emptyArray = Array(empty).fill('empty')
-    var gameArray = emptyArray.concat(bombArray);
-    var shuffledArray = gameArray.sort(() => Math.random() - 0.5)
-    return shuffledArray;
-}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);

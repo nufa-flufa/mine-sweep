@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>MineSweep Nofar</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body onload="init()">
-    <table class="board">
-    </table>
-    <button onclick="setMode('Easy')">Easy</button>
-    <button onclick="setMode('Medium')">Medium</button>
-    <button onclick="setMode('Hard')">Hard</button>
-    
+    <div class="game-container">
+        <div>
+            <div class="nav-bar">
+                <li><button onclick="setMode('Easy')">Easy</button></li>
+                <li><button onclick="setMode('Medium')">Medium</button></li>
+                <li><button onclick="setMode('Hard')">Hard</button></li>
+                <div onclick="restart()">😄</div>
+
+                <div class="timer">000</div>
+            </div>
+            <table class="board">
+            </table>
+        </div>
+    </div>
+    <script src="js/board.js"></script>
     <script src="js/util.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

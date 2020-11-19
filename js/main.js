@@ -1,34 +1,48 @@
 'use strict';
 console.log('this is connected');
-
+const FLAG_IMG = '&#128681;'
+const BOMB_IMG = '&#128163';
 var gBoard;
-const MINE = '&#128163;'
 var gDifficulty = 'Easy';
 var gBombsAmount = 0;
+var gElapsedTime = setTimer();
+var isGameOn = true;
 
 
 function init() {
 
     if (gDifficulty === 'Easy') {
-        gBombsAmount = 2;
         gBoard = createBoard(4);
+        putBombsInBoard(gBoard, 14, 2)
+        
     }
     if (gDifficulty === 'Medium') {
-        gBombsAmount = 10;
         gBoard = createBoard(8);
+        putBombsInBoard(gBoard, 52, 12);
+        
     }
     if (gDifficulty === 'Hard') {
-        gBombsAmount = 20;
         gBoard = createBoard(12);
+        putBombsInBoard(gBoard, 114, 30)
+        
     }
     console.table(gBoard)
-    putBombsInBoard(gBoard)
+    gElapsedTime = 0;
+    // setTimer()
     renderBoard();
+}
+function restart(){
+    // console.log('blah')
+    // gDifficulty = 'easy';
+    init();
+    gElapsedTime;
+
 }
 
 function setMode(difficulty) {
     gDifficulty = difficulty
     init()
+    gElapsedTime
 }
 
 function cellClicked(elCell) {
@@ -37,56 +51,43 @@ function cellClicked(elCell) {
     var mineCount = setMineNegCount(coords.i, coords.j, gBoard)
     gBoard[coords.i][coords.j].minesAroundCount += mineCount;
     elCell.innerText = mineCount;
+    elCell.isShown = true;
+    if (elCell.className === 'cell bomb'){
+        elCell.innerHTML = BOMB_IMG
+        var bombs = document.querySelectorAll('cell bomb')
+        console.log(bombs)
+        alert('oops')
+    } 
 }
 
-function renderBoard() {
-    var strHTML = '';
-    for (var i = 0; i < gBoard.length; i++) {
-        strHTML += '<tr>'
-        for (var j = 0; j < gBoard[0].length; j++) {
-            // var cell = putBombsInBoard(gBoard);
-            var cellId = i + '-' + j;
-            strHTML += `<td id="cell-${cellId}" class="cell" onclick="cellClicked(this)"></td>`
-        }
-        strHTML += '</tr>'
-    }
-    var elBoard = document.querySelector('.board');
-    elBoard.innerHTML = strHTML;
+
+
+function checkMine(elCell) {
+    elCell.innerHTML = FLAG_IMG
 }
 
-//CREATE BOARD (+MAT)
-function createBoard(num) {
-    var board = []
-    for (var i = 0; i < num; i++) {
-        board[i] = []
-        for (var j = 0; j < num; j++) {
-            board[i][j] = createCell();
-        }
-    }
-    return board;
-}
 
-// CREATE THE CELL
-function createCell() {
-    return {
-        type: '',
-        minesAroundCount: 0,
-        isShown: true,
-        isMine: false,
-        isMarked: true
-    }
-}
+
 //CHECKING NEIGHBOURS
 function setMineNegCount(cellI, cellJ, mat) {
     var minesSum = 0;
+    var currCell = gBoard[cellI][cellJ]
+    if (currCell.type == 'bomb') currCell.innerHTML = BOMB_IMG
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= mat.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (i === cellI && j === cellJ) continue;
             if (j < 0 || j >= mat[i].length) continue;
-            if (mat[i][j] === MINE) minesSum++;
+            if (mat[i][j].type === 'bomb') {
+                minesSum++;
+                mat[i][j].minesAroundCount = minesSum
+            }
         }
     }
     return minesSum;
+}
+
+function isGameOver() {
+    alert('oops')
 }
 
